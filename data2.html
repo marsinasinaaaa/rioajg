@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        const container = document.getElementById("container");
+        
+        async function ambilDataPesantren() {
+            try {
+                const linkKabupaten = await fetch("https://api-pesantren-indonesia.vercel.app/kabupaten/32.json");
+                const dataKabupaten = await linkKabupaten.json();
+
+                const linkProvinsi = await fetch("https://api-pesantren-indonesia.vercel.app/provinsi.json");
+                const dataProvinsi = await linkProvinsi.json();
+
+                const linkPesantren = await fetch("https://api-pesantren-indonesia.vercel.app/pesantren/3206.json");
+                const dataSetiapPesantren = await linkPesantren.json();
+                
+                container.innerHTML = ""; // Hapus konten sebelum menambahkan yang baru
+
+                dataKabupaten.forEach(element => {
+                    container.innerHTML += `<p>Id: ${element.id}</p>`;
+                    container.innerHTML += `<p>Nama Kabupaten: ${element.nama}</p>`;
+                    // Tambahkan properti lain jika diperlukan
+                });
+
+                dataProvinsi.forEach(element => {
+                    container.innerHTML += `<p>Id: ${element.id}</p>`;
+                    container.innerHTML += `<p>Nama Provinsi: ${element.nama}</p>`;
+                });
+
+                dataSetiapPesantren.forEach(element => {
+                    container.innerHTML += `<p>Nama Pesantren: ${element.nama}</p>`;
+                    container.innerHTML += `<p>Alamat Pesantren: ${element.alamat}</p>`;
+                    container.innerHTML += `<p>Nama Kabupaten Kota: ${element.kab_kota.nama}</p>`;
+                    container.innerHTML += `<p>Nama Provinsi: ${element.provinsi.nama}</p>`;
+                    container.innerHTML += `<p>Nama Kyai: ${element.kyai}</p>`;
+                });
+            } catch (error) {
+                container.innerHTML = "Error";
+            }
+        }
+
+        ambilDataPesantren();
+    </script>
+</body>
+</html>

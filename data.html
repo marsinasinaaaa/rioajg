@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        async function logMovies() {
+            try {
+                const response = await fetch("https://api-pesantren-indonesia.vercel.app/kabupaten/32.json");
+                const movies = await response.json();
+
+                const container = document.getElementById("container");
+                container.innerHTML = ""; // Hapus konten sebelum menambahkan yang baru
+
+                movies.forEach(element => {
+                    container.innerHTML += `<p>Id: ${element.id}</p>`;
+                    container.innerHTML += `<p>Nama: ${element.nama}</p>`;
+                    // Tambahkan properti lain jika diperlukan
+                });
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            }
+        }
+
+        logMovies();
+    </script>
+</body>
+</html>
